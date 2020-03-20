@@ -1,0 +1,1 @@
+1) Explore flask-migrations for database updating
