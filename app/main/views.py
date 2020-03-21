@@ -11,16 +11,25 @@ def index():
 
 @main.route('/viewExistingGames')
 def viewGames():
-	db.create_all()
 	print(Game.query.all())
 	return '<h1>viewGames</h1>'
+
+@main.route('/viewGameDetails/<game_id>',methods=['GET'])
+def viewGameInfo(game_id):
+	game = Game.query.filter_by(id=game_id).all()
+	if game:
+		print(game)
+		
+	else:
+		print('no game with that id')
+	return '<h1>viewing Game Information</h1>'
 
 @main.route('/createGame', methods=['GET','POST'])
 def createGame():
 	form = newGameForm()
 	db.create_all()
 	if form.validate_on_submit():
-		game = Game()
+		game = Game(rules=form.rules.data)
 		db.session.add(game)
 		db.session.commit()
 		return redirect('/viewExistingGames')

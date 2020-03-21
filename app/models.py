@@ -3,8 +3,9 @@ from . import db
 class Game(db.Model):
 	__tablename__='games'
 	id = db.Column(db.Integer, primary_key=True)
-	#rules = db.Column(db.Text,nullable=False)
+	rules = db.Column(db.Text,nullable=False)
 	users = db.relationship('User',backref='game')
+	#admin = db.relationship('User',backraf='game')
 	def __repr__(self):
 		return '<Game %r>' % self.id
 
