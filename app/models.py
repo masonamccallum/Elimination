@@ -7,6 +7,9 @@ class Game(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	rules = db.Column(db.Text,nullable=False)
 	users = db.relationship('User',backref='game')
+	gameState = db.Column(db.String, nullable=False, default="preGame")
+	#timer
+	#proof
 	#admin = db.relationship('User',backraf='game')
 	def __repr__(self):
 		return '<Game %r>' % self.id
@@ -15,7 +18,7 @@ class User(db.Model):
 	__tablename__='users'
 	id = db.Column(db.Integer, primary_key=True)
 	email = db.Column(db.String(64), unique=True, index=True)
-	name = db.Column(db.String(64), unique=True, index=True)
+	username = db.Column(db.String(64), unique=True, index=True)
 	password_hash = db.Column(db.String(128))
 	game_id = db.Column(db.Integer, db.ForeignKey('games.id'))	
 
@@ -31,4 +34,9 @@ class User(db.Model):
 		return check_password_hash(self.password_hash, password)
 
 	def __repr__(self):
-		return '<User %r>' % self.name
+		return '<User %r>' % self.username
+
+from . import login_manager
+@login_manager.user_loader
+def load_user(user_id):
+	return User.query.get(int(user_id))

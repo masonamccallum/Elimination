@@ -1,1 +1,10 @@
-1) Explore flask-migrations for database updating
+1) fix create game
+
+Game 
+	-gameId : int
+	-rules  : textBox
+	-users  : users list
+	-admin  : admin
+	-gameState (preGame, countdown, inGame) : string
+	-timer  : time
+	-proof  : mediaStuff
