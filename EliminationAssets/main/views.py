@@ -1,13 +1,13 @@
-from flask import render_template, session, redirect, url_for
-from . import main
-from .forms import newGameForm
-from .. import db
-from ..models import Game
+from flask import render_template, redirect, url_for, Blueprint
+from EliminationAssets import db
+# from EliminationAssets.main import newGameForm
 
+main = Blueprint('main',__name__)
 
 @main.route('/')
 def index():
-	return '<h1>INDEX</h1>'
+	img_list = ['profile-icon.png','home-icon.png','eliminate-icon.png']
+	return render_template('index.html', img_list = img_list)
 
 @main.route('/viewExistingGames')
 def viewGames():
