@@ -22,3 +22,8 @@ target’s cup before they drink. Be creative but also be safe.
 
 # Build instructions
 ...
+
+## Windows 
+$env:FLASK_APP=flasky.py
+
+## *nix/Mac
