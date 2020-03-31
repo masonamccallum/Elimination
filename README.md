@@ -21,33 +21,24 @@ with Nerf guns, others ”poison” there target by marking on the bottom of the
 target’s cup before they drink. Be creative but also be safe.
 
 # Build instructions
-...
 insure you have an updated version of pip "python package manager"
 
-clone the repo
-$git clone https://github.com/masonamccallum/Elimination.git
-
-go into that directory
-$cd Elimination
-
-create virtual Environment
-python3 -m venv <name of env>
-$python3 -m venv venv
-
-activate Environment
-$source venv/bin/activate
-
-download requirements
-$pip install -r docs/requirements.txt
-
-set environment variables
-$export FLASK_APP="flasky.py"
-
-start flask
-$flask run --host 0.0.0.0
-
-when done stop the server 
-<Ctrl-C>
-
-stop the virtual environment
-$deactivate
+1) clone the repo\
+    $git clone https://github.com/masonamccallum/Elimination.git
+2) go into that directory\
+    $cd Elimination
+3) create virtual Environment\
+   python3 -m venv <name of env>\
+    $python3 -m venv venv
+4) activate Environment\
+    $source venv/bin/activate\
+5) download requirements\
+    $pip install -r docs/requirements.txt
+6) set environment variables\
+    $export FLASK_APP="flasky.py"
+7) start flask\
+    $flask run --host 0.0.0.0
+8) when done stop the server\
+    Ctrl-C
+9) stop the virtual environment\
+    $deactivate
