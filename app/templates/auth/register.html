@@ -2,8 +2,8 @@
 {%import "bootstrap/wtf.html" as wtf%}
 
 {% block body%}
-{{wtf.quick_form(form)}}
-<!--<tr>
+<!--{{wtf.quick_form(form)}}-->
+<tr>
     <td style="text-align: center; width: 50%; margin: 0px; padding: 0px;">
 	<form action='/auth/register' method='POST'>
 	{{form.csrf_token}}
@@ -36,5 +36,5 @@
 	</table>
 	</form>
 	</td>
-</tr>-->
+</tr>
 {% endblock body%}
