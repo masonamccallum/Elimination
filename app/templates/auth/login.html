@@ -2,12 +2,10 @@
 {%import "bootstrap/wtf.html" as wtf%}
 
 {% block body%}
-{{wtf.quick_form(form)}}
-<!--	<form method="POST" action="/">	
+	<form method="POST" action="/auth/login">	
 		{{form.csrf_token}}
 		{{form.email}}
 		{{form.password}}
 		<input type="submit" value="Go">
 	</form>
--->
 {% endblock %}
