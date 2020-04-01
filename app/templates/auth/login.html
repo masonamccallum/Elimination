@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {%import "bootstrap/wtf.html" as wtf%}
-{% block title %}Login{%endblock%}
+
 {% block body%}
-	{{super()}}
-	{{wtf.quick_form(form)}}
+{{wtf.quick_form(form)}}
+<!--	<form method="POST" action="/">	
+		{{form.csrf_token}}
+		{{form.email}}
+		{{form.password}}
+		<input type="submit" value="Go">
+	</form>
+-->
 {% endblock %}

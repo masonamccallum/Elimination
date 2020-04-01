@@ -7,7 +7,7 @@ from ..models import Game
 
 @main.route('/')
 def index():
-	return '<h1>INDEX</h1>'
+	return render_template('index.html')
 
 @main.route('/viewExistingGames')
 def viewGames():

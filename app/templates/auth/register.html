@@ -1,6 +1,40 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {%import "bootstrap/wtf.html" as wtf%}
-{% block title %}Register{%endblock%}
+
 {% block body%}
 {{wtf.quick_form(form)}}
-{% endblock %}
+<!--<tr>
+    <td style="text-align: center; width: 50%; margin: 0px; padding: 0px;">
+	<form action='/auth/register' method='POST'>
+	{{form.csrf_token}}
+	<table class="table-body">
+	<tbody>
+		<tr><td style ="padding-top: 2vh;">
+		{{form.email.label(style="color: white; font-size: 17px; margin: 0px;")}}
+		{{form.email}}
+		</td></tr>
+
+        <tr><td>
+		{{form.username.label(style="color: white; font-size: 16px; margin: 0px;")}}
+		{{form.username}}
+		</td></tr>
+
+        <tr><td>
+		{{form.password.label(style="color: white; font-size: 16px; margin: 0px;")}}
+		{{form.password}}
+		</td></tr>
+
+        <tr><td>
+		{{form.password.label(style="color: white; font-size: 16px; margin: 0px;")}}
+		{{form.password}}
+		</td></tr>
+
+        <tr><td>
+		{{form.submit(class_="game-buttons")}}
+		</td></tr>
+	</tbody>
+	</table>
+	</form>
+	</td>
+</tr>-->
+{% endblock body%}
