@@ -12,10 +12,10 @@ class LoginForm(FlaskForm):
 	submit = SubmitField('Log In')
 
 class RegistrationForm(FlaskForm):
-	email = StringField('Email',validators=[DataRequired(), Length(1,64),Email()])
-	username = StringField('Username', validators=[DataRequired(), Length(1,64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',0,'Username not valid')])
-	password = PasswordField('Password', validators=[DataRequired(), EqualTo('password2',message='Passwords must match.')])
-	password2 = PasswordField('Confirm Password', validators=[DataRequired()])
+	email = StringField('Email',validators=[DataRequired(), Length(1,64),Email()],render_kw = {"placeholder": "exampleEmail@gmail.com", "style":"height: 25px; width: 90%" })
+	username = StringField('Username', validators=[DataRequired(), Length(1,64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',0,'Username not valid')],render_kw = {"placeholder": "Username Here", "style":"height: 25px" })
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('password2',message='Passwords must match.')],render_kw = {"placeholder": "Password Here", "style":"height: 25px" })
+	password2 = PasswordField('Confirm Password', validators=[DataRequired()],render_kw = {"placeholder": "Confirm Password Here", "style":"height: 25px" })
 	submit = SubmitField('Register')
 
 	def validate_email(self,field):

@@ -3,30 +3,31 @@
 
 {% block body%}
 <tr>
-    <td style="text-align: center; width: 50%; margin: 0px; padding: 0px;">
+    <td style="text-align: center; width: 50%; height: 50%; margin: 0px; padding: 0px;">
 	<form action='/auth/register' method='POST'>
 	{{form.csrf_token}}
 	<table class="table-body">
 	<tbody>
 		<tr><td style ="padding-top: 2vh;">
-		{{form.email.label(style="color: white; font-size: 17px; margin: 0px;")}}
-		{{form.email}}
+		{{form.email.label(style="color: white; font-size: 16px; margin: 0px;")}}
+        <br>
+        {{form.email}}
 		</td></tr>
-
         <tr><td>
-		{{form.username.label(style="color: white; font-size: 16px; margin: 0px;")}}
-		{{form.username}}
-		</td></tr>
-
+        {{form.username.label(style="color: white; font-size: 16px; margin: 0px;")}}
+        <br>
+        {{form.username}}
+        </td></tr>
         <tr><td>
-		{{form.password.label(style="color: white; font-size: 16px; margin: 0px;")}}
-		{{form.password}}
-		</td></tr>
-
+        {{form.password.label(style="color: white; font-size: 16px; margin: 0px;")}}
+        <br>
+        {{form.password}}
+        </td></tr>
         <tr><td>
-		{{form.password2.label(style="color: white; font-size: 16px; margin: 0px;")}}
-		{{form.password2}}
-		</td></tr>
+        {{form.password2.label(style="color: white; font-size: 16px; margin: 0px;")}}
+        <br>
+        {{form.password2}}
+        </td></tr>
 
         <tr><td>
 		{{form.submit(class_="game-buttons")}}
