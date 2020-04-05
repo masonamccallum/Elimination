@@ -25,7 +25,7 @@ def create_app(config_name):
 	app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
 	from .rules import rules as rules_blueprint
-	app.register_blueprint(rules_blueprint, url_prefix="/rules")
+	app.register_blueprint(rules_blueprint, url_prefix='/rules')
 
 	return app
 

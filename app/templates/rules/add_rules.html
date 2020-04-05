@@ -7,6 +7,6 @@
 	</style>
 {%endblock%}
 {%block body%}
-	<h1>Add Rules</h1>
-{{wtf.quick_form(form)}}	
+	{{ form.ruleToAdd() }}
+	{{ form.submit(class='game-buttons') }}
 {%endblock%}
