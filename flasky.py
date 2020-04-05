@@ -1,9 +1,9 @@
 import os
 from app import create_app, db
-from app.models import User, Game
+from app.models import User, Game, Rule
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
 @app.shell_context_processor
 def make_shell_context():
-	return dict(db=db, User=User, Game=Game)
+	return dict(db=db, User=User, Game=Game, Rule=Rule)

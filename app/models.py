@@ -33,6 +33,17 @@ class User(UserMixin,db.Model):
 	def __repr__(self):
 		return '<User %r>' % self.username
 
+
+class Rule(db.Model):
+	__tablename__='rules'
+	id = db.Column(db.Integer, primary_key=True) 
+	title = db.Column(db.String(128), unique=True, index=True)
+	body = db.Column(db.String(4096))
+
+	def __repr__(self):
+		return f'Rule title: {self.title} -- {self.body}'
+
+
 from . import login_manager
 @login_manager.user_loader
 def load_user(user_id):
