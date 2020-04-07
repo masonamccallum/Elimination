@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, session, redirect, request, url_for, flash
 from flask_login import login_user
 from . import auth
 from .. import db
@@ -14,6 +14,8 @@ def login():
 		user = User.query.filter_by(email=form.email.data).first()
 		if user is not None and user.verify_password(form.password.data):
 			login_user(user, form.remember_me.data)
+			session['username']=user.username
+			print(session['username'])
 			nextURL = request.args.get('next')
 			if nextURL is None or not nextURL.startswith('/'):
 				nextURL = url_for('main.index')
@@ -36,5 +38,6 @@ def register():
 @login_required
 def logout():
 	logout_user()
+	session['username']=''
 	flash('You have been logged out')
 	return redirect(url_for('main.index'))

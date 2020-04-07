@@ -8,9 +8,13 @@ class Game(db.Model):
 	rules = db.Column(db.Text,nullable=False)
 	users = db.relationship('User',backref='game')
 	gameState = db.Column(db.String, nullable=False, default="preGame")
-	#timer
-	#proof
 	#admin = db.relationship('User',backraf='game')
+	def verify_gameid(self,gameId):
+		if Game.query.filter_by(game_id=gameId):
+			return True
+		else:
+			return False
+
 	def __repr__(self):
 		return '<Game %r>' % self.id
 
