@@ -4,17 +4,18 @@ from .forms import newGameForm, joinGameForm
 from .. import db
 from ..models import Game, User
 from flask_login import login_required
+from ..decorators import admin_required, permission_required
 
 
 @main.route('/')
 def index():
 	return render_template('index.html')
 
-@main.route('/viewExistingGames')
+@main.route('/admin')
 @login_required
-def viewGames():
-	print(Game.query.all())
-	return '<h1>viewGames</h1>'
+@admin_required
+def forAdmin():
+	return '<h1>For ADMIN!!</h1>'
 
 @main.route('/viewGameDetails/<game_id>',methods=['GET'])
 @login_required

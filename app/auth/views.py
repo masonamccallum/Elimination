@@ -14,6 +14,7 @@ def login():
 		user = User.query.filter_by(email=form.email.data).first()
 		if user is not None and user.verify_password(form.password.data):
 			login_user(user, form.remember_me.data)
+			print(user)
 			session['username']=user.username
 			print(session['username'])
 			nextURL = request.args.get('next')
