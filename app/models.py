@@ -43,7 +43,7 @@ class User(UserMixin,db.Model):
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
 	def __repr__(self):
-		return f'<User {self.username} {self.role_id}>' 
+		return f'<User UN:{self.username} | RoleID:{self.role_id} GameId:{self.game_id}>' 
 	
 	def can(self,perm):
 		return self.role is not None and self.role.has_permission(perm)
@@ -55,7 +55,7 @@ class User(UserMixin,db.Model):
 		super(User,self).__init__(**kwargs)
 		if self.role is None:
 			if self.email == 'm@gmail.com':
-				self.role = Role.query.filter_by(name='Administrator').first()
+				self.role = Role.query.filter_by(name='Developer').first()
 			if self.role is None:
 				self.role = Role.query.filter_by(default=True).first()
 
@@ -80,7 +80,8 @@ class Role(db.Model):
 	def insert_roles():
 		roles = {
 			'Player': [Permission.VOTEPOLL],
-			'Administrator': [Permission.ADMIN, Permission.CREATEPOLL, Permission.KICKPLAYER]
+			'Administrator': [Permission.ADMIN, Permission.CREATEPOLL, Permission.KICKPLAYER], 
+			'Developer' : [Permission.ADMIN, Permission.CREATEPOLL, Permission.KICKPLAYER, Permission.VOTEPOLL]
 		}
 		
 		default_role = 'Player'
