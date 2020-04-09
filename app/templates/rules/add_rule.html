@@ -1,0 +1,11 @@
+{%extends "base.html"%}
+{%block title%}Elimination{%endblock%}
+
+{%block body%}
+	<form method="POST">
+		{{ form.hidden_tag() }}
+		{{ form.ruleTitle.label(style='color: white') }}{{ form.ruleTitle() }}<br>
+		{{ form.ruleToAdd.label(style='color: white') }}{{ form.ruleToAdd() }}<br>
+		{{ form.submit(class='game-buttons') }}
+	</form>
+{%endblock%}
