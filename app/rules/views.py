@@ -1,7 +1,8 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_required
 from . import rules
-# from ..models import Rule
+from ..models import Rule
+from .. import db
 from .forms import AddRule, EditRule
 
 
@@ -22,5 +23,6 @@ def create():
 # @login_required
 def edit():
     form = EditRule()
+    #@todo select rule from dropdown and go to it's edit page
     return render_template('rules/edit_rules.html', form=form)
 
