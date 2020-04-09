@@ -10,6 +10,6 @@ class AddRule(FlaskForm):
 
 
 class EditRule(FlaskForm):
-    selectedRule = SelectField('Select Rule:')
-    editRule = TextAreaField('Edit Here:')
+    editTitle = StringField('Edit Title:')
+    editRule = TextAreaField('Edit Rule:')
     submit = SubmitField('Submit Edit')

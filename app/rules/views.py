@@ -16,13 +16,41 @@ def create():
         db.session.add(createdRule)
         db.session.commit()
         return redirect(url_for('main.index'))
-    return render_template('rules/add_rules.html', form=form)
+    return render_template('rules/add_rule.html', form=form)
+
+@rules.route('/<int:rule_id>')
+def rule(rule_id):
+    rule = Rule.query.get_or_404(rule_id)
+    return render_template('rules/rule.html', title=rule.title,
+                            body=rule.body)
 
 
 @rules.route('/editRule/<int:rule_id>', methods=['GET','POST'])
 # @login_required
-def edit():
+def edit(rule_id):
+    rule = Rule.query.get_or_404(rule_id)
     form = EditRule()
-    #@todo select rule from dropdown and go to it's edit page
-    return render_template('rules/edit_rules.html', form=form)
 
+    if form.validate_on_submit():
+        rule.title = form.selecRule.select
+        rule.body = form.editRule.data
+
+        db.session.commit()
+        return redirect(url_for('rules.rule', rule_id=rule_id))
+
+    elif request.method == 'GET':
+        form.selectRule.data = rule.title
+        form.body.data = rule.body
+
+    return render_template('rules/edit_rule.html', form=form)
+
+
+@rules.route('/deleteRule/<int:rule_id>', methods=['GET','POST'])
+# @login_required
+def delete(rule_id):
+    rule = Rule.query.get_or_404(rule_id)
+
+    db.session.delete(rule)
+    db.session.commit()
+    return redirect(url_for('main.index'))
+    
