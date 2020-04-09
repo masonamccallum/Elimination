@@ -6,13 +6,13 @@ from wtforms import ValidationError
 
 
 class LoginForm(FlaskForm):
-	email = StringField('Email',validators=[DataRequired(), Length(1,64), Email()])
-	password = PasswordField('Password',validators=[DataRequired()])
+	email = StringField('Email',validators=[DataRequired(), Length(1,64), Email()],render_kw = {"placeholder": "example@gmail.com", "class":"form-control"})
+	password = PasswordField('Password',validators=[DataRequired()],render_kw = {"placeholder": "password", "class":"form-control"})
 	remember_me = BooleanField('Keep me logged in')
 	submit = SubmitField('Log In')
 
 class RegistrationForm(FlaskForm):
-	email = StringField('Email',validators=[DataRequired(), Length(1,64),Email()],render_kw = {"placeholder": "exampleEmail", "class":"form-control"})
+	email = StringField('Email',validators=[DataRequired(), Length(1,64),Email()],render_kw = {"placeholder": "example@gmail.com", "class":"form-control"})
 	username = StringField('Username', validators=[DataRequired(), Length(1,64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',0,'Username not valid')],render_kw = {"placeholder": "Eliminator", "class":"form-control" })
 	password = PasswordField('Password', validators=[DataRequired(), EqualTo('password2',message='Passwords must match.')],render_kw = {"placeholder": "Secrete ID", "class":"form-control" })
 	password2 = PasswordField('Confirm Password', validators=[DataRequired()],render_kw = {"placeholder": "Confirm Password", "class":"form-control" })
