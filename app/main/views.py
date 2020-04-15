@@ -56,8 +56,14 @@ def randomizeTargets(game_id):
 def joinGame():
 	form = joinGameForm()
 	if form.validate_on_submit():
+		code = form.code.data
+		game = Game.query.filter_by(id=code).first()
 		if current_user.game_id is None:
-			addToGame(form.code.data)
+			if game.stateMatch(State.COUNTDOWN):
+				addToGame(code)
+			else:
+				flash('You are to late. That game has started')
+				return redirect(url_for('main.start'))
 		else:
 			flash('You are already in a game')
 		return redirect(url_for('main.countdown'))

@@ -1,10 +1,5 @@
-1) fix create game
-
-Game 
-	-gameId : int
-	-rules  : textBox
-	-users  : users list
-	-admin  : admin
-	-gameState (preGame, countdown, inGame) : string
-	-timer  : time
-	-proof  : mediaStuff
+7) set up in game page
+4) set up kick player
+5) set up player leave game
+6) set up player kill event table
+8) clean up html to look like racheals stuff
