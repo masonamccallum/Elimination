@@ -8,6 +8,11 @@ from ..decorators import admin_required, permission_required
 
 @main.route('/')
 def index():
+	return render_template('login.html')
+
+@main.route('/start')
+@login_required
+def start():
 	return render_template('index.html')
 
 @main.route('/admin')

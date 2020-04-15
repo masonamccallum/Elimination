@@ -19,7 +19,7 @@ def login():
 			print(session['username'])
 			nextURL = request.args.get('next')
 			if nextURL is None or not nextURL.startswith('/'):
-				nextURL = url_for('main.index')
+				nextURL = url_for('main.start')
 			return redirect(nextURL)
 		flash('Invalid username or password.')
 	return render_template('auth/login.html', form=form)

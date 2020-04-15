@@ -1,0 +1,22 @@
+{%extends "base.html"%} 
+{%block title%}Elimination{%endblock%}
+{%block head%}
+	{{super()}}
+	<style>
+	</style>
+{%endblock%}
+{%block body%}
+    {{ form.ruleTitle.label }}{{ form.ruleTitle }}
+    {{ form.changeRule.label }}{{ form.changeRule }}
+	{{ form.submit(class='game-buttons') }}
+{%endblock%}
+
+
+
+
+
+
+<!-- ruleTitle = StringField('Title:')
+    changeRule = TextAreaField('Rule:')
+    submit = SubmitField('Change Rule')
+    acceptDefault = SubmitField('Accept Defaults') -->

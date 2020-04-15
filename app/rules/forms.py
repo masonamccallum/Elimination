@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired
 
 
 class AddRule(FlaskForm):
-    ruleTitle = StringField('Title:');
+    ruleTitle = StringField('Title:')
     ruleToAdd = TextAreaField('Rule:')
     submit = SubmitField('Add Rule')
 
@@ -13,3 +13,10 @@ class EditRule(FlaskForm):
     editTitle = StringField('Edit Title:')
     editRule = TextAreaField('Edit Rule:')
     submit = SubmitField('Submit Edit')
+
+
+class StartPoll(FlaskForm):
+    ruleTitle = StringField('Title:')
+    changeRule = TextAreaField('Rule:')
+    submit = SubmitField('Change Rule')
+    acceptDefault = SubmitField('Accept Defaults')
