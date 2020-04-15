@@ -3,6 +3,7 @@ from wtforms import *
 from wtforms.validators import DataRequired
 
 class newGameForm(FlaskForm):
+	name= StringField('name',[validators.DataRequired()])
 	rules = TextAreaField('Rules Here')#TODO make text file
 	countdownLength = IntegerField('Days till start', [validators.DataRequired()])
 	submit = SubmitField('Create Game')

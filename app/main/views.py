@@ -3,10 +3,12 @@ from random import shuffle
 from . import main
 from .forms import newGameForm, joinGameForm
 from .. import db
-from ..models import Game, User, Role
+from ..models import Game, User, Role, State
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
+from ..decorators import countdown_required, ingame_required
 from datetime import datetime, timedelta
+from flask import abort
 
 @main.route('/')
 def index():
@@ -49,6 +51,27 @@ def randomizeTargets(game_id):
 	else:
 		print('error in Random Target assignment')
 
+@main.route('/joinGame', methods=['GET','POST'])
+@login_required
+def joinGame():
+	form = joinGameForm()
+	if form.validate_on_submit():
+		if current_user.game_id is None:
+			addToGame(form.code.data)
+		else:
+			flash('You are already in a game')
+		return redirect(url_for('main.countdown'))
+	return render_template('joinGame.html',form=form)
+
+def addToGame(code):
+	user = User.query.filter_by(username=current_user.username).first()
+	game = Game.query.filter_by(id=code)
+	if user and game:
+		if user.game_id is None:
+			user.game_id = code
+			db.session.commit()
+			randomizeTargets(user.game_id)
+
 @main.route('/createGame', methods=['GET','POST'])
 @login_required
 def createGame():
@@ -56,30 +79,41 @@ def createGame():
 	if form.validate_on_submit():
 		if current_user.game_id is None:
 			cl = datetime.now()+timedelta(days=form.countdownLength.data)
-			game = Game(rules=form.rules.data, countdownLength=cl)
-			current_user.role = Role.query.filter_by(name='Administrator').first()
-			current_user.game_id = game.id
-			print(current_user.role)
+			game = Game(name=form.name.data,rules=form.rules.data, countdownLength=cl)
+			game.gameState = State.COUNTDOWN
 			db.session.add(game)
 			db.session.commit()
-			return render_template('countdown.html')
+			g = Game.query.filter_by(name=form.name.data).first()
+			if game:
+				current_user.game_id = g.id
+				current_user.role = Role.query.filter_by(name='Administrator').first()
+				db.session.commit()
+			else:	
+				flash('create Game error')
+			return redirect(url_for('main.countdown'))
 		else:
 			flash('You are already in a game')
 	return render_template('createGame.html', form=form)
-	
-@main.route('/joinGame', methods=['GET','POST'])
+
+@main.route('/countdown',methods=['GET','POST'])
 @login_required
-def joinGame():
-	form = joinGameForm()
-	if form.validate_on_submit():
-		user = User.query.filter_by(username=session['username']).first()
-		game = Game.query.filter_by(id=form.code.data)
-		if user and game:	
-			if user.game_id is None:
-				user.game_id = form.code.data	
-				db.session.commit()
-				randomizeTargets(user.game_id)
-				return render_template('countdown.html')
-			else:
-				flash('You are already in a game')
-	return render_template('joinGame.html', form=form)
+@countdown_required
+def countdown():
+	return render_template('countdown.html')
+	
+@main.route('/gameStart',methods=['GET','POST'])
+@login_required
+@countdown_required
+def gameStart():
+	game = Game.query.filter_by(id=current_user.game_id).first()
+	if game is not None:
+		game.gameState = State.INGAME
+		db.session.add(game)
+		db.session.commit()
+		game = Game.query.filter_by(id=current_user.game_id).first()
+		print(game.gameState)
+		print(Game.query.filter_by(gameState="ingame").first())
+		return '<h1>game has started </h1>'
+	else:
+		return '<h1>game has failed to start</h1>'
+		

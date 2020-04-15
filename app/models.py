@@ -4,6 +4,10 @@ from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
 
+class State:
+	INGAME = "ingame"
+	COUNTDOWN = "countdown"
+
 class Permission:
 	CREATEPOLL = 1
 	VOTEPOLL = 2
@@ -12,13 +16,20 @@ class Permission:
 
 class Game(db.Model):
 	__tablename__='games'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, primary_key=True, index=True)
+	name = db.Column(db.String(64), unique=True, index=True)
 	rules = db.Column(db.Text,nullable=False)
 	users = db.relationship('User',backref='game')
-	gameState = db.Column(db.String, nullable=False, default="preGame")
+	gameState = db.Column(db.String, nullable=False, default=State.COUNTDOWN)
 	users = db.relationship('User',backref='game', lazy='dynamic')
 	countdownLength = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(days=2))
-	
+
+	def stateMatch(self,state):
+		if state == self.gameState:
+			return True
+		else:
+			return False 
+
 	def verify_gameid(self,gameId):
 		if Game.query.filter_by(game_id=gameId):
 			return True
