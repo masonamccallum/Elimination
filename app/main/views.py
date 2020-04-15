@@ -36,16 +36,33 @@ def viewGameInfo(game_id):
 		print('no game with that id')
 	return '<h1>viewing Game Information</h1>'
 
+def badShuffle(assign):
+	for a in assign:
+		if a[1].id == a[0] and len(assign) > 2:
+			return True
+		else:
+			return False
+
 def randomizeTargets(game_id):
 	game = Game.query.filter_by(id=game_id).first()
 	if game:
 		users = game.users.all()
 		numPlayers = len(users)
 		targetList = list(range(1,numPlayers+1))
-		shuffle(targetList)
+		for u in users:
+			if u.is_administrator():
+				targetList.remove(u.id)
+				users.remove(u)
+		
 		assignments = list(zip(targetList,users))
-		print(assignments)
+		while badShuffle(assignments):
+			shuffle(targetList)
+			assignments = list(zip(targetList,users))
+
+		#kkkkkprint(assignments)
 		for a in assignments:
+			print(a[1])
+			print(a[0])
 			a[1].target_id = a[0]
 		db.session.commit()
 	else:

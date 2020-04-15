@@ -47,6 +47,7 @@ class User(UserMixin,db.Model):
 	password_hash = db.Column(db.String(128))
 	game_id = db.Column(db.Integer, db.ForeignKey('games.id'))	
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+	target_id = db.Column(db.Integer, unique=True)
 
 	@property
 	def password(self):
