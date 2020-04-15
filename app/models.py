@@ -129,6 +129,18 @@ class Rule(db.Model):
 	def __repr__(self):
 		return f'Rule title: {self.title} -- {self.body}'
 
+class Poll(db.Model):
+	__tablename__='polls'
+	rules = db.relationship(Rule)
+	id = db.Column(db.Integer, primary_key=True) 
+	positive_votes = db.Column(db.Integer)
+	negative_votes = db.Column(db.Integer)
+	current_rule = db.Column(db.Integer,db.ForeignKey('rules.id'))
+	proposed_rule_title = db.Column(db.String(128), unique=True, index=True)
+	proposed_rule_body = db.Column((db.String(4096)))
+
+	def __repr__(self):
+		return f"Old rule title: {current_rule.title}\n Old rule body:  {current_rule.body}\n =====================================\n New rule title: {proposed_rule_title}\n New rule body:  {proposed_rule_body}\n"
 
 from . import login_manager
 
