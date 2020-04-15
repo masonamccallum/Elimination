@@ -1,4 +1,5 @@
 from flask import render_template, session, redirect, url_for, flash
+from random import shuffle
 from . import main
 from .forms import newGameForm, joinGameForm
 from .. import db
@@ -24,12 +25,28 @@ def forAdmin():
 @main.route('/viewGameDetails/<game_id>',methods=['GET'])
 @login_required
 def viewGameInfo(game_id):
-	game = Game.query.filter_by(id=game_id).all()
+	game = Game.query.filter_by(id=game_id).first()
 	if game:
 		print(game)
+		print(game.users.all())
 	else:
 		print('no game with that id')
 	return '<h1>viewing Game Information</h1>'
+
+def randomizeTargets(game_id):
+	game = Game.query.filter_by(id=game_id).first()
+	if game:
+		users = game.users.all()
+		numPlayers = len(users)
+		targetList = list(range(1,numPlayers+1))
+		shuffle(targetList)
+		assignments = list(zip(targetList,users))
+		print(assignments)
+		for a in assignments:
+			a[1].target_id = a[0]
+		db.session.commit()
+	else:
+		print('error in Random Target assignment')
 
 @main.route('/createGame', methods=['GET','POST'])
 @login_required
@@ -59,6 +76,7 @@ def joinGame():
 			if user.game_id is None:
 				user.game_id = form.code.data	
 				db.session.commit()
+				randomizeTargets(user.game_id)
 			else:
 				flash('You are already in a game')
 	return render_template('joinGame.html', form=form)
