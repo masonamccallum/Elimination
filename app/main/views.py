@@ -62,7 +62,7 @@ def createGame():
 			print(current_user.role)
 			db.session.add(game)
 			db.session.commit()
-			return redirect('/')
+			return render_template('countdown.html')
 		else:
 			flash('You are already in a game')
 	return render_template('createGame.html', form=form)
@@ -79,6 +79,7 @@ def joinGame():
 				user.game_id = form.code.data	
 				db.session.commit()
 				randomizeTargets(user.game_id)
+				return render_template('countdown.html')
 			else:
 				flash('You are already in a game')
 	return render_template('joinGame.html', form=form)
