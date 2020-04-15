@@ -6,6 +6,7 @@ from .. import db
 from ..models import Game, User, Role
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
+from datetime import datetime, timedelta
 
 @main.route('/')
 def index():
@@ -54,7 +55,8 @@ def createGame():
 	form = newGameForm()
 	if form.validate_on_submit():
 		if current_user.game_id is None:
-			game = Game(rules=form.rules.data)
+			cl = datetime.now()+timedelta(days=form.countdownLength.data)
+			game = Game(rules=form.rules.data, countdownLength=cl)
 			current_user.role = Role.query.filter_by(name='Administrator').first()
 			current_user.game_id = game.id
 			print(current_user.role)

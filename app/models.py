@@ -1,4 +1,5 @@
 from . import db
+from datetime import datetime, timedelta
 from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
@@ -16,6 +17,8 @@ class Game(db.Model):
 	users = db.relationship('User',backref='game')
 	gameState = db.Column(db.String, nullable=False, default="preGame")
 	users = db.relationship('User',backref='game', lazy='dynamic')
+	countdownLength = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(days=2))
+	
 	def verify_gameid(self,gameId):
 		if Game.query.filter_by(game_id=gameId):
 			return True
