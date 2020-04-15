@@ -1,12 +1,56 @@
-{%extends "base.html"%}
+{% extends 'base.html' %}
 {%import "bootstrap/wtf.html" as wtf%}
-{%block title%}Elimination{%endblock%}
-{%block head%}
-	{{super()}}
-	<style>
-	</style>
-{%endblock%}
-{%block body%}
-	<h1>CreateGame</h1>
-{{wtf.quick_form(form)}}	
-{%endblock%}
+
+{% block head %}
+<script src="/static/javascript/createGameScript.js"></script>
+{% endblock %}
+
+{% block body%}
+<p style="float: right;"><a id="add" class="game-buttons" href="#">+</a></p><br><br>
+	<form id="rule-form" action="" method="POST" role="form">
+		{{ form.hidden_tag() }}
+		
+		<div id="subforms-container">
+			{% for subform in form2.rules %}
+				<div id="rule-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
+					{{ subform.ruleTitle.label }}
+					{{ subform.ruleTitle }}<br>
+
+					{{ subform.ruleToAdd.label }}
+					{{ subform.ruleToAdd}}
+
+					<td style="float: right;"><a class="remove minor-buttons" href="#">Remove</a></td>
+				</div>
+			{% endfor %}
+			
+		</div>
+
+		<td style="float: left;"><button type="submit" class="game-buttons">Continue</button></td>
+	</form>
+
+
+    <table class="table-body" style="text-align: center;">
+        <tbody>
+          <tr>
+            <td style="float: left;"><a href="/start"><button class="minor-buttons">&larr; Back</button></a></td>
+          </tr>
+        </tbody>
+	  </table>
+	  <script>function docReady(fn) {
+		// see if DOM is already available
+		if (document.readyState === "complete" || document.readyState === "interactive") {
+			// call on next available tick
+			setTimeout(fn, 1);
+		} else {
+			document.addEventListener("DOMContentLoaded", fn);
+		}
+	}  
+	</script>
+	<script>
+		docReady(function() {
+			$('#add').click(addForm);
+    		$('.remove').click(removeForm);
+	});
+	</script>
+
+{% endblock body%}

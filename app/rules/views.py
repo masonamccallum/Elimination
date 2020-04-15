@@ -3,7 +3,7 @@ from flask_login import login_required
 from . import rules
 from ..models import Rule, Poll
 from .. import db
-from .forms import AddRule, EditRule
+from .forms import AddRules, EditRule
 
 
 
