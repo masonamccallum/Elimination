@@ -19,7 +19,8 @@ class Game(db.Model):
 	__tablename__='games'
 	id = db.Column(db.Integer, primary_key=True, index=True)
 	name = db.Column(db.String(64), unique=True, index=True)
-	rules = db.Column(db.Text,nullable=False)
+	ruleTitle = db.Column(db.Text,nullable=False)
+	ruleBody = db.Column(db.Text,nullable=False)
 	users = db.relationship('User',backref='game')
 	gameState = db.Column(db.String, nullable=False, default=State.COUNTDOWN)
 	users = db.relationship('User',backref='game', lazy='dynamic')

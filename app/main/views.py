@@ -19,9 +19,15 @@ def index():
 	return render_template('login.html')
 
 @main.route('/start')
-@login_required
 def start():
-	return render_template('index.html')
+
+	if current_user.is_anonymous:
+		return redirect('/')
+	else:
+		user = User.query.filter_by(username=session['username']).first()
+		game = user.game_id
+	return render_template('index.html', game=game)
+
 
 @main.route('/admin')
 @login_required
@@ -107,7 +113,7 @@ def createGame():
 		
 		if current_user.game_id is None:
 			cl = datetime.now()+timedelta(days=form.countdownLength.data)
-			game = Game(name=form.name.data,rules=form.rules.data, countdownLength=cl)
+			game = Game(name=form.name.data,ruleTitle=form.ruleTitle.data, ruleBody=form.ruleBody.data, countdownLength=cl)
 			game.gameState = State.COUNTDOWN
 			db.session.add(game)
 			db.session.commit()
@@ -145,3 +151,11 @@ def gameStart():
 	else:
 		return '<h1>game has failed to start</h1>'
 		
+@main.route('/leaveGame')
+@login_required
+def leaveGame():
+	user =User.query.filter_by(username=session['username']).first()
+	user.game_id = None
+	db.session.commit()
+
+	return redirect('/start')
