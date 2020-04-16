@@ -15,12 +15,14 @@ def index():
 	return render_template('login.html')
 
 @main.route('/start')
-# @login_required
 def start():
+
 	if current_user.is_anonymous:
 		return redirect('/')
-
-	return render_template('index.html')
+	else:
+		user = User.query.filter_by(username=session['username']).first()
+		game = user.game_id
+	return render_template('index.html', game=game)
 
 @main.route('/invite')
 @login_required
@@ -86,8 +88,22 @@ def joinGame():
 		game = Game.query.filter_by(id=form.code.data)
 		if user and game:	
 			if user.game_id is None:
-				user.game_id = form.code.data	
-				db.session.commit()
+				if Game.query.filter_by(id=form.code.data) is not None:
+					user.game_id = form.code.data	
+					db.session.commit()
+					flash(f'You joined game {form.code.data}')
+					return redirect('/start')
+				else:
+					flash('There is no game with that code')
 			else:
 				flash('You are already in a game')
 	return render_template('joinGame.html', form=form)
+
+@main.route('/leaveGame')
+@login_required
+def leaveGame():
+	user =User.query.filter_by(username=session['username']).first()
+	user.game_id = None
+	db.session.commit()
+
+	return redirect('/start')
