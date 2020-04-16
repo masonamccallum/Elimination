@@ -2,8 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import *
 
 class newGameForm(FlaskForm):
-	rules = TextAreaField('Rules Here')#TODO make text file
-	submit = SubmitField('Create Game')
+	name= StringField('Group name: ',[validators.DataRequired()])
+	ruleTitle = StringField('Title: ')
+	ruleBody = TextAreaField('Rule: ')
+	countdownLength = IntegerField('Days till start: ', [validators.DataRequired()])
+	submit = SubmitField('Create Game!')
 
 class joinGameForm(FlaskForm):
 	code = StringField('Code',[validators.DataRequired()])

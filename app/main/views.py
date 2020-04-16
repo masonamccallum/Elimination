@@ -60,13 +60,9 @@ def viewGameInfo(game_id):
 @main.route('/createGame', methods=['GET','POST'])
 @login_required
 def createGame():
-	form2 = AddRules()
-	
 	form = newGameForm()
 	if form.validate_on_submit():
-		for rule in form.rules.data:
-			new_rule = Rule(**rule)
-	
+		
 		if current_user.game_id is None:
 			game = Game(rules=form.rules.data)
 			current_user.role = Role.query.filter_by(name='Administrator').first()
@@ -77,7 +73,7 @@ def createGame():
 			return redirect('/invite')
 		else:
 			flash('You are already in a game')
-	return render_template('createGame.html', form=form,form2=form2)
+	return render_template('createGame.html', form=form)
 	
 @main.route('/joinGame', methods=['GET','POST'])
 @login_required

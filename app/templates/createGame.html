@@ -3,134 +3,41 @@
 
 {% block head %}
 
-<script>
-	/**
- * Adjust the indices of form fields when removing items.
- */
-function adjustIndices(removedIndex) {
-    var $forms = $('.subform');
-
-    $forms.each(function(i) {
-        var $form = $(this);
-        var index = parseInt($form.data('index'));
-        var newIndex = index - 1;
-
-        if (index < removedIndex) {
-            // Skip
-            return true;
-        }
-
-        // Change ID in form itself
-        $form.attr('id', $form.attr('id').replace(index, newIndex));
-        $form.data('index', newIndex);
-
-        // Change IDs in form inputs
-        $form.find('input').each(function(j) {
-            var $item = $(this);
-            $item.attr('id', $item.attr('id').replace(index, newIndex));
-            $item.attr('name', $item.attr('name').replace(index, newIndex));
-        });
-    });
-}
-
-/**
- * Remove a form.
- */
-function removeForm() {
-    var $removedForm = $(this).closest('.subform');
-    var removedIndex = parseInt($removedForm.data('index'));
-
-    $removedForm.remove();
-
-    // Update indices
-    adjustIndices(removedIndex);
-}
-
-/**
- * Add a new form.
- */
-function addForm() {
-    var $templateForm = $('#rule-_-form');
-
-    if (!$templateForm) {
-        console.log('[ERROR] Cannot find template');
-        return;
-    }
-
-    // Get Last index
-    var $lastForm = $('.subform').last();
-
-    var newIndex = 0;
-
-    if ($lastForm.length > 0) {
-        newIndex = parseInt($lastForm.data('index')) + 1;
-    }
-
-    // Maximum of 20 subforms
-    if (newIndex > 20) {
-        console.log('[WARNING] Reached maximum number of elements');
-        return;
-    }
-    
-    // Add elements
-    var $newForm = $templateForm.clone();
-    
-	$newForm.attr('id', $newForm.attr('id').replace('_', newIndex));
-    $newForm.data('index', newIndex);
-
-    $newForm.find('input').each(function(idx) {
-        var $item = $(this);
-
-        $item.attr('id', $item.attr('id').replace('_', newIndex));
-        $item.attr('name', $item.attr('name').replace('_', newIndex));
-    });
-
-    // Append
-    $('#subforms-container').append($newForm);
-    $newForm.addClass('subform');
-    $newForm.removeClass('is-hidden');
-
-    $newForm.find('.remove').click(removeForm);
-}
-
-	$(document).ready(function() {
-		$('#add').click(addForm);
-		$('.remove').click(removeForm);
-	});
-</script>
 {% endblock %}
 
 {% block body%}
-<p style="float: right;"><a id="add" class="game-buttons" href="#">+</a></p><br><br>
-	<form id="rule-form" action="" method="POST" role="form">
-		{{ form.hidden_tag() }}
-		
-		<div id="subforms-container">
-			{% for subform in form2.rules %}
-				<div id="rule-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
-					{{ subform.ruleTitle.label }}
-					{{ subform.ruleTitle }}<br>
 
-					{{ subform.ruleToAdd.label }}
-					{{ subform.ruleToAdd}}
+<script>
+	function createRow() {
+		var table = document.getElementById("rulesTable");
+		var row = table.insertRow(0);
+		var username = row.insertCell(0);
+		var button = row.insertCell(1);
+		username.innerHTML = '{{ form.ruleTitle.label(style="color:aqua") }}{{ form.ruleTitle }}<br>{{ form.ruleBody.label(style="color:aqua") }}{{ form.ruleBody }}';
+		button.innerHTML = '<p style="float: right;"><a onclick="deleteRow()" class="minor-buttons">&#160;&#160;&#160;&#160;&#45;&#160;&#160;&#160;&#160;</a></p>';
+	}
+	function deleteRow() {
+		var table = document.getElementById("rulesTable");
+		var row = table.deleteRow(0)
+	}
+</script>
 
-					<td style="float: right;"><a class="remove minor-buttons" href="#">Remove</a></td>
-				</div>
-			{% endfor %}
-			
-		</div>
-
-		<td style="float: left;"><button type="submit" class="game-buttons">Continue</button></td>
-	</form>
-
-
-    <table class="table-body" style="text-align: center;">
-        <tbody>
-          <tr>
-            <td style="float: left;"><a href="/start"><button class="minor-buttons">&larr; Back</button></a></td>
-          </tr>
-        </tbody>
-	  </table>
-
+<p style="float: right;"><a onclick="createRow()" class="minor-buttons">&#160;&#160;&#160;&#160;&#43;&#160;&#160;&#160;&#160;</a></p><br><br>
+<form action="" method="POST" role="form">
+	{{ form.hidden_tag() }}
+	{{ form.name.label(style='color:aqua') }}{{ form.name }}<br>
+	{{ form.countdownLength.label(style='color:aqua') }}{{ form.countdownLength}}
+	<table style="margin-bottom:130px;" class="table-body" id="rulesTable">
+		<tbody>
+			{{ form.ruleTitle.label(style='color:aqua') }}{{ form.ruleTitle }}
+			<br>
+			{{ form.ruleBody.label(style='color:aqua') }}{{ form.ruleBody }}
+			<br>
+		</tbody>
+	</table>
+	<td style="float: right;"><button type="submit" class="game-buttons">Continue</button></td>
+</form>
+<br>
+<td style="float: left;"><a href="/start"><button class="minor-buttons">&larr; Back</button></a></td>
 
 {% endblock body%}
