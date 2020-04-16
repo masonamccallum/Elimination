@@ -8,7 +8,10 @@ class State:
 	INGAME = "ingame"
 	COUNTDOWN = "countdown"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fixAssignTarget
 class Permission:
 	CREATEPOLL = 1
 	VOTEPOLL = 2
@@ -19,7 +22,12 @@ class Game(db.Model):
 	__tablename__='games'
 	id = db.Column(db.Integer, primary_key=True, index=True)
 	name = db.Column(db.String(64), unique=True, index=True)
+<<<<<<< HEAD
+	ruleTitle = db.Column(db.Text,nullable=False)
+	ruleBody = db.Column(db.Text,nullable=False)
+=======
 	rules = db.Column(db.Text,nullable=False)
+>>>>>>> fixAssignTarget
 	users = db.relationship('User',backref='game')
 	gameState = db.Column(db.String, nullable=False, default=State.COUNTDOWN)
 	users = db.relationship('User',backref='game', lazy='dynamic')
