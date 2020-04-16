@@ -59,7 +59,7 @@ def randomizeTargets(game_id):
 			shuffle(targetList)
 			assignments = list(zip(targetList,users))
 
-		#kkkkkprint(assignments)
+		print(assignments)
 		for a in assignments:
 			print(a[1])
 			print(a[0])

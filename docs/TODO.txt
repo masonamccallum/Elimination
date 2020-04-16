@@ -1,6 +1,4 @@
-1) set up proper count down
-2) set up in game page
-3) set up kick player
-4) set up player leave game
-5) set up player kill event table
-6) clean up html to look like racheals stuff
+7) set up in game page
+2) Set up target assignment single cycle
+4) set up kick player
+6) set up player kill event table
