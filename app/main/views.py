@@ -36,35 +36,39 @@ def viewGameInfo(game_id):
 		print('no game with that id')
 	return '<h1>viewing Game Information</h1>'
 
-def badShuffle(assign):
-	for a in assign:
-		if a[1].id == a[0] and len(assign) > 2:
-			return True
-		else:
-			return False
+def assignTarget(game,player,target):
+	user = game.users.filter_by(id=player).first()
+	user.target_id = target
+	db.session.commit()
+	return
+
+def map(arr,i):
+	idx = arr[0].index(i)
+	return arr[1][idx]
+
+def reduce(arr):
+	start = arr[1][0]
+	i = map(arr,start)
+	factor = [i]
+	while(i is not start):
+		i = map(arr,i)
+		factor.append(i)
+	return factor
 
 def randomizeTargets(game_id):
 	game = Game.query.filter_by(id=game_id).first()
 	if game:
+		userIDs = []
 		users = game.users.all()
-		numPlayers = len(users)
-		targetList = list(range(1,numPlayers+1))
 		for u in users:
-			if u.is_administrator():
-				targetList.remove(u.id)
-				users.remove(u)
-		
-		assignments = list(zip(targetList,users))
-		while badShuffle(assignments):
-			shuffle(targetList)
-			assignments = list(zip(targetList,users))
-
-		print(assignments)
-		for a in assignments:
-			print(a[1])
-			print(a[0])
-			a[1].target_id = a[0]
-		db.session.commit()
+			if u.role_id != 2:
+				userIDs.append(u.id)
+		temp = [userIDs,userIDs.copy()]
+		shuffle(temp[1])
+		while len(reduce(temp)) is not len(temp[0]):
+			shuffle(temp[1])
+		for player, targ in zip(temp[0],temp[1]):
+			assignTarget(game,player,targ)	
 	else:
 		print('error in Random Target assignment')
 
