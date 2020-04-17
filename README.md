@@ -42,3 +42,4 @@ insure you have an updated version of pip "python package manager"
     Ctrl-C
 9) stop the virtual environment\
     $deactivate
+
