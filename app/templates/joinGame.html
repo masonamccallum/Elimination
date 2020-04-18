@@ -3,17 +3,22 @@
 {%block title%}Elimination{%endblock%}
 {%block head%}
 	{{super()}}
-	<style>
-	</style>
 {%endblock%}
 {%block body%}
+<tr><td>
+	<table class="table-body" style="padding-top:10%;"><tbody><tr><td>
 	<h1>Join Game</h1>
 {{wtf.quick_form(form)}}
-<table class="table-body" style="text-align: center;">
+	</td></tr>
+</tbody>
+</table>
+<table class="table-body">
 	<tbody>
 	  <tr>
-		<td style="float: left;"><a href="/start"><button class="minor-buttons">&larr; Back</button></a></td>
+		<td style="float: left; padding-top:20%;"><a href="/start"><button class="minor-buttons">&larr; Back</button></a></td>
+		  <td></td>
 	  </tr>
 	</tbody>
   </table>
+	</td></tr>
 {%endblock%}

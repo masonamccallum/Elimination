@@ -5,39 +5,63 @@
 
 {% endblock %}
 
-{% block body%}
-
+{% block body%} 
 <script>
 	function createRow() {
 		var table = document.getElementById("rulesTable");
 		var row = table.insertRow(0);
 		var username = row.insertCell(0);
 		var button = row.insertCell(1);
-		username.innerHTML = '{{ form.ruleTitle.label(style="color:aqua") }}{{ form.ruleTitle }}<br>{{ form.ruleBody.label(style="color:aqua") }}{{ form.ruleBody }}';
-		button.innerHTML = '<p style="float: right;"><a onclick="deleteRow()" class="minor-buttons">&#160;&#160;&#160;&#160;&#45;&#160;&#160;&#160;&#160;</a></p>';
+		username.innerHTML = '{{ form.ruleTitle.label(style="color: white; font-size: 16px; margin: 0px;") }}<br>{{ form.ruleTitle(class_="input") }}<br>{{ form.ruleBody.label(style="color: white; font-size: 16px; margin: 0px;") }}<br>{{ form.ruleBody(class_="rule-textbox") }}';
+		button.innerHTML = '<p><a onclick="deleteRow()" class="minor-buttons">&#160;&#160;&#160;&#160;&#45;&#160;&#160;&#160;&#160;</a></p>';
 	}
 	function deleteRow() {
 		var table = document.getElementById("rulesTable");
 		var row = table.deleteRow(0)
 	}
 </script>
-
-<p style="float: right;"><a onclick="createRow()" class="minor-buttons">&#160;&#160;&#160;&#160;&#43;&#160;&#160;&#160;&#160;</a></p><br><br>
-<form action="" method="POST" role="form">
-	{{ form.hidden_tag() }}
-	{{ form.name.label(style='color:aqua') }}{{ form.name }}<br>
-	{{ form.countdownLength.label(style='color:aqua') }}{{ form.countdownLength}}
-	<table style="margin-bottom:130px;" class="table-body" id="rulesTable">
-		<tbody>
-			{{ form.ruleTitle.label(style='color:aqua') }}{{ form.ruleTitle }}
-			<br>
-			{{ form.ruleBody.label(style='color:aqua') }}{{ form.ruleBody }}
-			<br>
-		</tbody>
-	</table>
-	<td style="float: right;"><button type="submit" class="game-buttons">Continue</button></td>
-</form>
-<br>
-<td style="float: left;"><a href="/start"><button class="minor-buttons">&larr; Back</button></a></td>
-
-{% endblock body%}
+<tr>
+  <td><table class="table-body">
+      <tbody>
+        <tr>
+          <td><p style="float: right;"><a onclick="createRow()" class="minor-buttons">&#160;&#160;Add Rule&#160;&#160;&#43;&#160;&#160;&#160;&#160;</a></p>
+            <br>
+            <br></td>
+        </tr>
+        <tr>
+          <td><form action="" method="POST" role="form">
+              {{ form.hidden_tag() }}
+              {{ form.name.label(style="color: white; font-size: 16px; margin: 0px;") }}<br>
+              {{ form.name(class_="input") }}<br>
+              {{ form.countdownLength.label(style="color: white; font-size: 16px; margin: 0px;") }}<br>
+              {{ form.countdownLength(class_="input")}}
+              <table class="table-body" id="rulesTable">
+                <tbody>
+                  <tr>
+                    <td> {{ form.ruleTitle.label(style="color: white; font-size: 16px; margin: 0px;") }}<br>
+                      {{ form.ruleTitle(class_="input") }} </td>
+                  </tr>
+                  <tr>
+                    <td> {{ form.ruleBody.label(style="color: white; font-size: 16px; margin: 0px;") }}<br>
+                      {{ form.ruleBody(class_="rule-textbox") }} <br></td>
+                  </tr>
+                  <tr>
+                    <td><button type="submit" class="game-buttons">Continue</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </form></td>
+        </tr>
+      </tbody>
+    </table>
+    <table>
+      <tbody>
+        <tr>
+          <td style="float: left;"><a href="/start">
+            <button class="minor-buttons">&larr; Back</button>
+            </a></td>
+        </tr>
+      </tbody>
+    </table></td>
+</tr>
+{% endblock body%} 

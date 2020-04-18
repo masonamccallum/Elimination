@@ -1,19 +1,19 @@
 {%extends 'base.html'%}
 {%block body%}
 <tr>
-	<td style="text-align: center; width: 70%; margin: 0px; padding-top: 15vh;"><button class="game-buttons"><a href="/createGame" style="display:block;">Create Game</a></button></td>
+	<td style="padding-top:20%;"><a href="/createGame"><button class="game-buttons">Create Game</button></a></td>
 </tr>
 {% if game == None %}
 <tr>
-	<td style="text-align: center; width: 70%; margin: 0px; padding-top: 30px;"><button class="game-buttons"><a href="/joinGame" style="display:block;">Join Game</a></button></td>
+	<td><a href="/joinGame"><button class="game-buttons">Join Game</button></a></td>
 </tr>
 {% else %}
 <tr>
-	<td style="text-align: center; width: 70%; margin: 0px; padding-top: 30px;"><button class="game-buttons"><a href="/leaveGame" style="display:block;">Leave Game</a></button></td>
+	<td><a href="/leaveGame"><button class="game-buttons">Leave Game</button></a></td>
 </tr>
 {% endif %}
 <tr>
-	<td style="text-align: center; width: 70%; margin: 0px; padding-top: 30px;"><button class="game-buttons"><a href="/auth/logout" style="display:block;">Log Out</a></button></td>
+	<td style="padding-bottom: 20%;"><a href="/auth/logout"><button class="game-buttons">Log Out</button></a></td>
 </tr>
 
 {% endblock body%} 
