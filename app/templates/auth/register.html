@@ -3,30 +3,30 @@
 
 {% block body%}
 <tr>
-    <td style="text-align: center; width: 50%; height: 50%; margin: 0px; padding: 0px;">
-	<form action='/auth/register' method='POST'>
+    <td>
+	<form action="/auth/register" method="POST">
 	{{form.csrf_token}}
 	<table class="table-body">
 	<tbody>
-		<tr><td style ="padding-top: 2vh;">
+		<tr><td>
 		{{form.email.label(style="color: white; font-size: 16px; margin: 0px;")}}
         <br>
-        {{form.email}}
+        {{form.email(class_="input")}}
 		</td></tr>
         <tr><td>
         {{form.username.label(style="color: white; font-size: 16px; margin: 0px;")}}
         <br>
-        {{form.username}}
+        {{form.username(class_="input")}}
         </td></tr>
         <tr><td>
         {{form.password.label(style="color: white; font-size: 16px; margin: 0px;")}}
         <br>
-        {{form.password}}
+        {{form.password(class_="input")}}
         </td></tr>
         <tr><td>
         {{form.password2.label(style="color: white; font-size: 16px; margin: 0px;")}}
         <br>
-        {{form.password2}}
+        {{form.password2(class_="input")}}
         </td></tr>
 
         <tr><td>
@@ -35,10 +35,11 @@
     </tbody>
 	</table>
     </form>
-    <table class="table-body" style="text-align: center;">
+    <table class="footer-table">
         <tbody>
           <tr>
             <td style="float: left;"><a href="/"><button class="minor-buttons">&larr; Back</button></a></td>
+			  <td></td>
           </tr>
         </tbody>
       </table>
