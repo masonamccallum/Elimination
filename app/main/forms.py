@@ -6,7 +6,7 @@ class newGameForm(FlaskForm):
 	name= StringField('name',[validators.DataRequired()],render_kw = {"placeholder": "Title"})
 	ruleTitle = StringField('Title: ')
 	ruleBody = TextAreaField('Rule: ')
-	countdownLength = IntegerField('Days till start', [validators.DataRequired()])
+	countdownLength = IntegerField('Days till start', [validators.DataRequired()],render_kw = {"placeholder": "Days Until Game Start"})
 	submit = SubmitField('Create Game')
 
 class joinGameForm(FlaskForm):
