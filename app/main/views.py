@@ -19,14 +19,23 @@ def index():
 	return render_template('login.html')
 
 @main.route('/start')
+@login_required
 def start():
-
-	if current_user.is_anonymous:
-		return redirect('/')
-	else:
-		user = User.query.filter_by(username=session['username']).first()
-		game = user.game_id
+	user = User.query.filter_by(username=session['username']).first()
+	game = user.game_id
 	return render_template('index.html', game=game)
+
+@main.route('/inGame')
+@login_required
+@ingame_required
+def inGame():
+	game = Game.query.filter_by(id=current_user.game_id).first()
+	if game:
+		return render_template('gamePage.html',game=game)
+	else:
+		flash('ERROR')
+		return redirect(url_for('index'))
+		
 
 
 @main.route('/admin')
@@ -89,15 +98,19 @@ def joinGame():
 	if form.validate_on_submit():
 		code = form.code.data
 		game = Game.query.filter_by(id=code).first()
-		if current_user.game_id is None:
-			if game.stateMatch(State.COUNTDOWN):
-				addToGame(code)
+		if game:
+			if current_user.game_id is None:
+				if game.stateMatch(State.COUNTDOWN):
+					addToGame(code)
+				else:
+					flash('You are to late. That game has started')
+					return redirect(url_for('main.start'))
 			else:
-				flash('You are to late. That game has started')
-				return redirect(url_for('main.start'))
+				flash('You are already in a game')
+			return redirect(url_for('main.countdown'))
 		else:
-			flash('You are already in a game')
-		return redirect(url_for('main.countdown'))
+			flash('This game does not exist')
+			return redirect(url_for('main.start'))
 	return render_template('joinGame.html',form=form)
 
 def addToGame(code):
