@@ -5,78 +5,128 @@
 
 {% endblock %}
 
-{% block body%} 
+{% block body%}
+
+<!-- document.getElementById('textbox_id').value -->
+
 <script>
-	function createRow() {
-		var table = document.getElementById("rulesTable");
-		var row = table.insertRow(0);
-		var username = row.insertCell(0);
-		//var button = row.insertCell(0);
-		username.innerHTML = '{{ form.ruleTitle(class_="input-new-rule") }}<br>{{ form.ruleBody(class_="rule-textbox") }}';
-		//button.innerHTML = '<p><a onclick="deleteRow()" class="minor-buttons">&#160;&#160;&#160;&#160;&#45;&#160;&#160;&#160;&#160;</a></p>';
-	}
-	function deleteRow() {
-		var table = document.getElementById("rulesTable");
-		var row = table.deleteRow(0)
-	}
+  function addRuleToDB(rule_id, rule_title, rule_body) {
+
+
+    var table = document.getElementById("customRulesBlock");
+    var row = table.insertRow(0);
+    var ruleCell = row.insertCell(0);
+    ruleCell.innerHTML =
+      '<button type=\"button\" data-toggle=\"modal\" data-target=\"#rulesModal-\"+rule_id class=\"list-group-item\"><li class=\"mb-1\">rule_title</li></button>';
+  }
+
+  function showDefault() {
+    var x = document.getElementById("defaultRulesBlock");
+    if (x.style.display == "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
 </script>
+
 <tr>
   <td>
-	  <div class = "trape-header"><h1 style = "margin-top: -20%; font-size: 20px; color: #323C4A;">Create Game</h1></div>
-	  <table class="table-body">
+    <div class="trape-header">
+      <h1 style="margin-top: -20%; font-size: 20px; color: #323C4A;">Create Game</h1>
+    </div>
+    <table class="table-body">
       <tbody>
         <tr>
-          <td><form action="" method="POST" role="form" style="padding-top: 15px;">
+          <td>
+            <form action="" method="POST" role="form" style="padding-top: 15px;">
               {{ form.hidden_tag() }}
               {{ form.name(class_="input") }}<br>
               {{ form.countdownLength(class_="input")}}<br>
-              <span style="background: #323C4A; border-radius: 10px; height: auto; display: inline-block; width: 50%;"><input class="checkboox" type="checkbox"><p style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 0px; color: white;">Load Default Rules</p></span>
-			  <h3 style="text-align: left; margin: auto; padding-top: 25px;">Current Rules</h3>
-			  <div class="divider"></div>
-			  
-			  <div class="list-group"> <button type="button" data-toggle="modal" data-target="#rulesModal" class="list-group-item">
-			    <li class="mb-1">Active List Group Item Heading</li>
-			    </button> 
-				  <button type="button" data-toggle="modal" data-target="#rulesModal" class="list-group-item">
-			      <li class="mb-1">Second List Group Item Heading</li>
-			      </button> 
-				  <button type="button" data-toggle="modal" data-target="#rulesModal" class="list-group-item">
-			       <li class="mb-1">Disabled Group Item Heading</li>
-			        </button> </div>
-			              <!-- Modal -->
-            
-            <div class="modal fade" id="rulesModal" role="dialog">
-              <div class="modal-dialog"> 
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Rules</h4>
-                  </div>
-                  <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <span
+                style="background: #323C4A; border-radius: 10px; height: auto; display: inline-block; width: 50%;"><input
+                  class="checkboox" type="checkbox" onclick="showDefault()">
+                <p style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 0px; color: white;">Load Default Rules</p>
+              </span>
+              <h3 style="text-align: left; margin: auto; padding-top: 25px;">Default Rules</h3>
+              <div class="divider"></div>
+              {% macro _rules(rules) %}
+              <div style="display:none;" id="defaultRulesBlock">
+                <div class="list-group">
+
+                  {% for rule in rules %}
+
+                  <button type="button" data-toggle="modal" data-target="#rulesModal-{{rule.id}}"
+                    class="list-group-item">
+                    <li class="mb-1">{{ rule.title }}</li>
+                  </button>
+
+                  {{ caller(rule) }}
+
+                  {% endfor %}
+
+
+                </div>
+              </div> 
+              {% endmacro %}
+              <!-- Modal content-->
+              {% call(rule) _rules(default_rules) %}
+              <div class="modal fade" id="rulesModal-{{rule.id}}" role="dialog">
+                <div class="modal-dialog">
+
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">{{rule.title}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+
+                        {{rule.body}}
+
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- End of Modal content-->
-			  
-<h3 style="text-align: left; margin: auto; padding-top: 25px;">Create Rule
-  </h3>
-			  <div class="divider"></div>
-			  <table>
+              {% endcall %}
+              <!-- End of Modal content-->
+
+              <table class="table-body" id="customRulesBlock">
                 <tbody>
-					<tr><td>{{ form.ruleTitle(class_="input-new-rule") }}<br><br>{{ form.ruleBody(class_="rule-textbox") }}</td></tr>
-					<tr>
-                    <td><a onclick="createRow()"><button type="button" class="minor-buttons" style="float: right; margin:auto;">Add Rule</button></a></td>
+                  <button type="button" data-toggle="modal" data-target="#rulesModal"
+                    class="list-group-item">
+                    <li class="mb-1">This is my customer rule</li>
+                  </button>
+                </tbody>
+              </table>
+
+              <h3 style="text-align: left; margin: auto; padding-top: 25px;">Create Rule
+              </h3>
+              <div class="divider"></div>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      {{ form.ruleTitle(class_="input-new-rule", id="titleTextBox") }}<br><br>{{ form.ruleBody(class_="rule-textbox", id="bodyTextBox") }}
+                    </td>
                   </tr>
-				  </tbody></table>
-			  <button type="submit" class="game-buttons">Continue</button>
-            </form></td>
+                  <tr>
+                    <!-- onclick="addRuleToDB()" -->
+                    <script>
+                      var _title = document.getElementById('titleTextBox');
+                      var _body = document.getElementById('bodyTextBox');
+                    </script>
+                    <td><a><button type="button" class="minor-buttons" onclick="addRuleToDB(rule_id, _title, _body)" style="float: right; margin:auto;">Add Rule</button></a></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" class="game-buttons">Continue</button>
+            </form>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -84,10 +134,11 @@
       <tbody>
         <tr>
           <td style="float: left;"><a href="/start">
-            <button class="minor-buttons">&larr; Back</button>
+              <button class="minor-buttons">&larr; Back</button>
             </a></td>
         </tr>
       </tbody>
-    </table></td>
+    </table>
+  </td>
 </tr>
-{% endblock body%} 
+{% endblock body %}
