@@ -23,6 +23,8 @@ def start():
     else:
         user = User.query.filter_by(username=session['username']).first()
         game = user.game_id
+        if game:
+            return redirect(url_for('main.inGame'))
     return render_template('index.html', game=game)
 
 
@@ -117,7 +119,8 @@ def createGame():
             return redirect(url_for('main.countdown'))
         else:
             flash('You are already in a game')
-
+        return redirect(url_for('/createGame', _rule=_rule))
+        
     # Add logic here for adding rules at page load
     default_rules = Rule.query.filter_by(isDefault=True)
 
@@ -143,7 +146,7 @@ def gameStart():
         game = Game.query.filter_by(id=current_user.game_id).first()
         print(game.gameState)
         print(Game.query.filter_by(gameState="ingame").first())
-        return '<h1>game has started </h1>'
+        return render_template('gamePage.html')
     else:
         return '<h1>game has failed to start</h1>'
         

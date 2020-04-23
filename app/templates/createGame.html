@@ -7,17 +7,21 @@
 
 {% block body%}
 
-<!-- document.getElementById('textbox_id').value -->
+<!-- document.getElementById('textbox_id').value 
+$('form#_customRulesForm').submit();-->
 
 <script>
-  function addRuleToDB(rule_id, rule_title, rule_body) {
-
-
-    var table = document.getElementById("customRulesBlock");
-    var row = table.insertRow(0);
-    var ruleCell = row.insertCell(0);
-    ruleCell.innerHTML =
-      '<button type=\"button\" data-toggle=\"modal\" data-target=\"#rulesModal-\"+rule_id class=\"list-group-item\"><li class=\"mb-1\">rule_title</li></button>';
+  function addRuleToDB() {
+    var rule_title = document.getElementById("titleTextBox").value;
+    if (rule_title) {
+      var table = document.getElementById("customRulesBlock");
+      var row = table.insertRow(0);
+      
+      row.innerHTML =
+        '<button type=\"button\" data-toggle=\"modal\" data-target=\"#rulesModal\" class=\"list-group-item\">\
+        <li class=\"mb-1\">' + rule_title + '</li>\
+      </button>';
+    }
   }
 
   function showDefault() {
@@ -46,7 +50,8 @@
               <span
                 style="background: #323C4A; border-radius: 10px; height: auto; display: inline-block; width: 50%;"><input
                   class="checkboox" type="checkbox" onclick="showDefault()">
-                <p style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 0px; color: white;">Load Default Rules</p>
+                <p style="padding-top: 5px; padding-bottom: 5px; margin-bottom: 0px; color: white;">Load Default Rules
+                </p>
               </span>
               <h3 style="text-align: left; margin: auto; padding-top: 25px;">Default Rules</h3>
               <div class="divider"></div>
@@ -67,7 +72,7 @@
 
 
                 </div>
-              </div> 
+              </div>
               {% endmacro %}
               <!-- Modal content-->
               {% call(rule) _rules(default_rules) %}
@@ -96,12 +101,7 @@
               <!-- End of Modal content-->
 
               <table class="table-body" id="customRulesBlock">
-                <tbody>
-                  <button type="button" data-toggle="modal" data-target="#rulesModal"
-                    class="list-group-item">
-                    <li class="mb-1">This is my customer rule</li>
-                  </button>
-                </tbody>
+                <!-- This is where our dynamically added custom rules go!! -->
               </table>
 
               <h3 style="text-align: left; margin: auto; padding-top: 25px;">Create Rule
@@ -111,16 +111,15 @@
                 <tbody>
                   <tr>
                     <td>
-                      {{ form.ruleTitle(class_="input-new-rule", id="titleTextBox") }}<br><br>{{ form.ruleBody(class_="rule-textbox", id="bodyTextBox") }}
+                      {{ form.ruleTitle(class_="input-new-rule", id="titleTextBox") }}
+                      <br><br>
+                      {{ form.ruleBody(class_="rule-textbox", id="bodyTextBox") }}
                     </td>
                   </tr>
                   <tr>
-                    <!-- onclick="addRuleToDB()" -->
-                    <script>
-                      var _title = document.getElementById('titleTextBox');
-                      var _body = document.getElementById('bodyTextBox');
-                    </script>
-                    <td><a><button type="button" class="minor-buttons" onclick="addRuleToDB(rule_id, _title, _body)" style="float: right; margin:auto;">Add Rule</button></a></td>
+                    <td>
+                      <a><button type="button" class="minor-buttons" onclick="addRuleToDB()"
+                          style="float: right; margin:auto;">Add Rule</button></a></td>
                   </tr>
                 </tbody>
               </table>
@@ -135,7 +134,8 @@
         <tr>
           <td style="float: left;"><a href="/start">
               <button class="minor-buttons">&larr; Back</button>
-            </a></td>
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
