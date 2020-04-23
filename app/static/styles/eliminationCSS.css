@@ -1,10 +1,11 @@
 @charset "utf-8";
 /* Global Styles */
 h3 {
-  font-size: 30px;
+  font-size: 20px;
+	color:white;
 }
 h1 {
-  font-size: 35px;
+  font-size: 25px;
 	color: white;
 }
 /* Header */
@@ -149,6 +150,20 @@ input {
   font-size: 16px;
   text-align: center;
 }
+.input-new-rule {
+  margin-bottom: 10px;
+  margin-top: 3px;
+  width: 175px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #323C4A;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+	display: block;
+	margin:auto;
+	float:left;
+}
 textarea {
   border-radius: 10px;
   background-color: #323C4A;
@@ -161,6 +176,53 @@ textarea {
   width: 80%;
   height: 150px;
 	color:white;
+	float:left;
+	padding-top: 15px;
+}
+.list-group {
+	margin-top: 20px;
+	border-radius: 10px;
+}
+.trape-header {
+      border-top: 50px solid #3DDAC9;
+      border-left: 25px solid transparent;
+      border-right: 25px solid transparent;
+      height: 0;
+      width: 55%;
+	margin-left:auto;
+	margin-right: auto;
+	margin-top: -12%;
+    }
+.list-group-item {
+	color: #323C4A;
+	background: #3DDAC9;
+	width: 70%;
+	border: medium solid #323C4A;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left:15px;
+	font-size: 12px;
+	text-align: left;
+	border-radius: 10px;
+}
+.list-group-item:first-child {
+	border-radius: 10px;
+}
+.list-group-item:last-child {
+		border-radius: 10px;
+
+}
+.divider {
+	width: 80%;
+	height: 2px;
+	background-color: white;
+	float: left;
+	margin-bottom: 10px;
+}
+.checkboox {
+	width: 15%;
+	float: left;
+	margin: auto;
 }
 /* Footer */
 .footer-table {
