@@ -18,7 +18,6 @@ def index():
 
 @main.route('/start')
 def start():
-
     if current_user.is_anonymous:
         return redirect('/')
     else:
@@ -32,17 +31,6 @@ def start():
 @admin_required
 def forAdmin():
     return '<h1>For ADMIN!!</h1>'
-
-@main.route('/viewGameDetails/<game_id>',methods=['GET'])
-@login_required
-def viewGameInfo(game_id):
-    game = Game.query.filter_by(id=game_id).first()
-    if game:
-        print(game)
-        print(game.users.all())
-    else:
-        print('no game with that id')
-    return '<h1>viewing Game Information</h1>'
 
 def assignTarget(game,player,target):
 	user = game.users.filter_by(id=player).first()
@@ -140,9 +128,11 @@ def createGame():
 @countdown_required
 def countdown():
     return render_template('countdown.html')
+
     
 @main.route('/gameStart',methods=['GET','POST'])
 @login_required
+@admin_required
 @countdown_required
 def gameStart():
     game = Game.query.filter_by(id=current_user.game_id).first()
@@ -157,11 +147,21 @@ def gameStart():
     else:
         return '<h1>game has failed to start</h1>'
         
+@main.route('/inGame',methods=['GET','POST'])
+@login_required
+@ingame_required
+def inGame():
+	user = User.query.filter_by(username=current_user.username).first()
+	if user:
+		return render_template('gamePage.html')
+	else:
+		return '<h1>ERROR</h1>'
+
 @main.route('/leaveGame')
 @login_required
 def leaveGame():
-    user =User.query.filter_by(username=session['username']).first()
-    user.game_id = None
-    db.session.commit()
-
-    return redirect('/start')
+	user = User.query.filter_by(username=session['username']).first()
+	if user:
+		user.game_id = None
+		db.session.commit()
+	return redirect('/start')
