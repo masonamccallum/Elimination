@@ -143,7 +143,7 @@ def gameStart():
         game = Game.query.filter_by(id=current_user.game_id).first()
         print(game.gameState)
         print(Game.query.filter_by(gameState="ingame").first())
-        return '<h1>game has started </h1>'
+        return render_template(url_for(main.inGame))
     else:
         return '<h1>game has failed to start</h1>'
         
